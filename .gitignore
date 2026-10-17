@@ -1,0 +1,21 @@
+# App URLs stay out of the public repo until every app is gated (see CLAUDE.md)
+apps.local.js
+
+# Screenshots and scratch output from Playwright runs (review boards are copied into options/shots/ deliberately)
+/shots/
+playwright-artifacts/
+node_modules/
+
+# Impeccable per-machine state
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.impeccable/screenshots/
+.impeccable/live/
+
+# Claude Code per-machine settings
+.claude/settings.local.json
+.claude/worktrees/
+
+# OS
+Thumbs.db
+.DS_Store

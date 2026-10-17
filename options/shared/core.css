@@ -1,0 +1,221 @@
+/*
+  Decennial Energy Maps: structural CSS shared by every option.
+  Directions theme everything through the custom properties below (set them on :root or on a
+  container that holds the map) and restyle any .dem-* class. This file holds mechanics, not a look.
+*/
+:root {
+  --dem-font: "Work Sans", system-ui, sans-serif;
+  --dem-ink: #312439;
+  --dem-aubergine: #43314d;
+  --dem-gold: #EBBE07;
+  --dem-lilac: #efe8f4;
+  --dem-wash: #f7f5f9;
+  --dem-focus: #EBBE07;
+
+  --map-land: #e2dce6;
+  --map-land-stroke: #ffffff;
+  --map-siting: #43314d;
+  --map-hosting: #b9a6c9;
+  --map-partial-bg: #efe8f4;
+  --map-dim: #e2dce6;
+  --map-related-stroke: #EBBE07;
+  --map-selected-stroke: #EBBE07;
+  --map-corridor: rgba(67, 49, 77, .35);
+  --map-pulse: #EBBE07;
+  --map-label: #6f6177;
+  --map-label-covered: #ffffff;
+  --map-leader: #6f6177;
+
+  --chip-bg: #ffffff;
+  --chip-text: #312439;
+  --chip-border: #cfc5d6;
+  --chip-radius: 3px;
+
+  --panel-bg: #ffffff;
+  --panel-text: #312439;
+  --panel-muted: #5f4f67;
+  --panel-rule: #e2dce6;
+  --panel-shadow: 0 18px 48px -12px rgba(49, 36, 57, .35);
+}
+
+/* ---------- motion-scoped content ---------- */
+html:not([data-motion="story"]) [data-dem-only~="story"],
+html:not([data-motion="energize"]) [data-dem-only~="energize"],
+html:not([data-motion="zoom"]) [data-dem-only~="zoom"],
+html:not([data-motion="micro"]) [data-dem-only~="micro"],
+html[data-motion="story"] [data-dem-hide~="story"],
+html[data-motion="energize"] [data-dem-hide~="energize"],
+html[data-motion="zoom"] [data-dem-hide~="zoom"],
+html[data-motion="micro"] [data-dem-hide~="micro"] { display: none !important; }
+
+.dem-sr {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+:focus-visible { outline: 2px solid var(--dem-focus); outline-offset: 2px; }
+
+html.dem-reduce *, html.dem-reduce *::before, html.dem-reduce *::after {
+  animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+  transition-duration: .001ms !important; scroll-behavior: auto !important;
+}
+
+/* ---------- map ---------- */
+.dem-map { position: relative; container-type: inline-size; }
+.dem-map-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.dem-state {
+  fill: var(--map-land); stroke: var(--map-land-stroke); stroke-width: .75; stroke-linejoin: round;
+  transition: fill .5s cubic-bezier(.16, 1, .3, 1), stroke .2s, opacity .5s;
+}
+.dem-state.is-covered { cursor: pointer; }
+.dem-state.tier-siting { fill: var(--map-siting); }
+.dem-state.tier-hosting { fill: var(--map-hosting); }
+.dem-state.is-partial { fill: var(--dem-partial-fill); }
+.dem-hatch-bg { fill: var(--map-partial-bg); }
+.dem-hatch-line { stroke-width: 3.2; }
+.dem-hatch-siting .dem-hatch-line { stroke: var(--map-siting); }
+.dem-hatch-hosting .dem-hatch-line { stroke: var(--map-hosting); }
+
+.dem-map.has-related .dem-state.is-related { stroke: var(--map-related-stroke); stroke-width: 1.6; }
+.dem-state.is-hover { stroke-width: 2; }
+.dem-state.is-selected { stroke: var(--map-selected-stroke); stroke-width: 2.4; }
+
+/* micro: tier filter */
+html[data-filter="siting"] .dem-state.is-covered:not(.tier-siting),
+html[data-filter="hosting"] .dem-state.tier-siting { fill: var(--map-dim); }
+html[data-filter="siting"] .dem-chip:not(.tier-siting),
+html[data-filter="hosting"] .dem-chip.tier-siting { opacity: .45; }
+
+/* zoom: grid-level view */
+html[data-scale="large"] .dem-state.is-covered:not(.scale-large),
+html[data-scale="small"] .dem-state.is-covered:not(.scale-small) { fill: var(--map-dim); }
+
+/* energize: covered states wait for their pulse */
+.dem-map[data-energize="pending"] .dem-state.is-covered:not(.is-energized),
+.dem-map[data-energize="running"] .dem-state.is-covered:not(.is-energized) { fill: var(--map-dim); }
+.dem-corridor { fill: none; stroke: var(--map-corridor); stroke-width: 1.2; stroke-linecap: round; }
+.dem-pulse { fill: none; stroke: var(--map-pulse); stroke-width: 3.5; stroke-linecap: round; }
+
+.dem-label { font: 600 13px/1 var(--dem-font); fill: var(--map-label); pointer-events: none; transition: fill .5s; }
+.dem-label.is-covered { fill: var(--map-label-covered); }
+html[data-filter="siting"] .dem-label.is-covered:not(.tier-siting),
+html[data-filter="hosting"] .dem-label.tier-siting,
+html[data-scale="large"] .dem-label.is-covered:not(.scale-large),
+html[data-scale="small"] .dem-label.is-covered:not(.scale-small) { fill: var(--map-label); }
+.dem-label.is-partial { fill: var(--map-label-partial, var(--map-label)); }
+
+.dem-leader { fill: none; stroke: var(--map-leader); stroke-width: .8; }
+.dem-leader.is-related { stroke: var(--map-related-stroke); stroke-width: 1.4; }
+.dem-leader-dot { fill: var(--map-leader); }
+
+.dem-chips { position: absolute; inset: 0; pointer-events: none; }
+.dem-chip {
+  position: absolute; left: var(--x); top: var(--y); transform: translateY(-50%);
+  pointer-events: auto; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 24px; min-width: 44px; padding: 3px 8px;
+  font: 600 12px/1 var(--dem-font); letter-spacing: .02em;
+  color: var(--chip-text); background: var(--chip-bg); border: 1px solid var(--chip-border);
+  border-radius: var(--chip-radius); cursor: pointer; transition: background .2s, border-color .2s, opacity .3s;
+}
+.dem-chip::before { content: ""; width: 9px; height: 9px; flex: none; background: var(--map-hosting); }
+.dem-chip.tier-siting::before { background: var(--map-siting); }
+.dem-chip.is-partial::before { background: repeating-linear-gradient(45deg, var(--map-hosting) 0 2px, var(--map-partial-bg) 2px 4px); }
+.dem-chip.is-related, .dem-chip.is-selected, .dem-chip:hover { border-color: var(--map-related-stroke); }
+
+@container (max-width: 760px) {
+  .dem-chips { position: static; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .dem-chip { position: static; transform: none; }
+  .dem-leaders { display: none; }
+}
+
+.dem-tip {
+  position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none;
+  display: grid; gap: 2px; max-width: 240px; padding: 8px 10px;
+  font: 400 13px/1.35 var(--dem-font); color: var(--panel-text); background: var(--panel-bg);
+  box-shadow: var(--panel-shadow);
+}
+.dem-tip strong { font-weight: 600; }
+
+/* ---------- panel: side panel on desktop, bottom sheet on phones ---------- */
+.dem-panel {
+  position: fixed; z-index: 60; top: 16px; right: 16px; bottom: 16px;
+  width: min(380px, calc(100vw - 32px)); overflow: auto; overscroll-behavior: contain;
+  padding: 28px 26px 26px; color: var(--panel-text); background: var(--panel-bg); box-shadow: var(--panel-shadow);
+  font-family: var(--dem-font);
+  opacity: 0; transform: translateX(28px);
+  transition: opacity .22s ease-out, transform .32s cubic-bezier(.16, 1, .3, 1);
+}
+.dem-panel.is-open { opacity: 1; transform: none; }
+.dem-panel-grip { display: none; }
+.dem-panel-close {
+  position: absolute; top: 10px; right: 10px; width: 40px; height: 40px;
+  display: grid; place-items: center; color: inherit; background: none; border: 0; cursor: pointer;
+}
+.dem-panel-title { margin: 0 44px 18px 0; font-size: 1.6rem; line-height: 1.15; font-weight: 600; }
+.dem-panel-title:focus { outline: none; }
+.dem-panel-app { padding: 18px 0; border-top: 1px solid var(--panel-rule); }
+.dem-panel-app-name { margin: 0 0 8px; font-size: 1.1rem; font-weight: 600; }
+.dem-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.dem-badge { font-size: .8rem; padding: 3px 8px; border: 1px solid var(--panel-rule); }
+.dem-panel-label { margin: 12px 0 4px; font-size: .82rem; color: var(--panel-muted); }
+.dem-panel-utils { margin: 0; padding: 0; list-style: none; line-height: 1.5; }
+.dem-panel-others { margin: 0; }
+.dem-action-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 16px 0 0; }
+.dem-action { font-weight: 600; color: inherit; }
+.dem-signin { font-size: .82rem; color: var(--panel-muted); }
+.dem-invite { margin: 16px 0 0; font-size: .9rem; color: var(--panel-muted); }
+
+@media (max-width: 720px) {
+  .dem-panel {
+    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: 78vh;
+    padding: 22px 20px calc(24px + env(safe-area-inset-bottom));
+    transform: translateY(100%); opacity: 1;
+  }
+  .dem-panel.is-open { transform: none; }
+  .dem-panel-grip { display: block; width: 40px; height: 4px; margin: -8px auto 14px; background: var(--panel-rule); border-radius: 2px; }
+}
+
+/* ---------- covered-state list, find control, legend, directory ---------- */
+.dem-statelist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0 20px; }
+.dem-statelist-btn {
+  display: grid; gap: 2px; width: 100%; min-height: 44px; padding: 8px 0; text-align: left;
+  font: inherit; color: inherit; background: none; border: 0; cursor: pointer;
+}
+.dem-statelist-meta { font-size: .82em; opacity: .75; }
+
+.dem-find { display: grid; gap: 6px; }
+.dem-find-select { font: inherit; min-height: 44px; }
+
+.dem-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.dem-legend-item { display: flex; gap: 10px; align-items: baseline; }
+.dem-swatch { flex: none; display: inline-block; width: 14px; height: 14px; transform: translateY(2px); background: var(--map-hosting); }
+.dem-swatch-siting { background: var(--map-siting); }
+.dem-swatch-partial { background: repeating-linear-gradient(45deg, var(--map-hosting) 0 2px, var(--map-partial-bg) 2px 5px); }
+
+.dem-directory { list-style: none; margin: 0; padding: 0; }
+.dem-entry-levels { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.dem-filter, .dem-scale { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.dem-filter-btn, .dem-scale-btn { font: inherit; min-height: 44px; cursor: pointer; }
+.dem-scale-btn { display: grid; text-align: left; }
+
+/* ---------- story scroll track ---------- */
+.dem-story { position: relative; height: calc((var(--story-steps, 6) + 1) * 100vh); }
+.dem-story-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.dem-story.is-static { height: auto; }
+.dem-story.is-static .dem-story-stage { position: relative; height: auto; overflow: visible; }
+.dem-story-steps { list-style: none; margin: 0; padding: 0; }
+
+/* ---------- dev switcher (options only; hidden in ?shot=1 captures) ---------- */
+.dem-switcher {
+  position: fixed; z-index: 100; left: 12px; bottom: 12px; display: grid; gap: 4px;
+  padding: 8px 10px; font: 12px/1.3 system-ui, sans-serif; color: #1d1d1f; background: #ffffff;
+  border: 1px solid #c9c9c9; box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+}
+.dem-switcher-row { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
+.dem-switcher-label { width: 46px; color: #6b6b6b; }
+.dem-switcher a { color: #1d1d1f; text-decoration: none; }
+.dem-switcher a[aria-current] { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.dem-switcher-board { justify-self: start; color: #6b6b6b !important; }
+html[data-shot="1"] .dem-switcher { display: none; }
+@media (max-width: 720px) { .dem-switcher { left: 6px; right: 6px; bottom: 6px; } }
