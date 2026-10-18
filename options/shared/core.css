@@ -83,8 +83,15 @@ html.dem-reduce *, html.dem-reduce *::before, html.dem-reduce *::after {
 /* micro: tier filter */
 html[data-filter="siting"] .dem-state.is-covered:not(.tier-siting),
 html[data-filter="hosting"] .dem-state.tier-siting { fill: var(--map-dim); }
+/* Filtered-out chips stay legible (AA): dashed border and an emptied swatch, never faded text. */
 html[data-filter="siting"] .dem-chip:not(.tier-siting),
-html[data-filter="hosting"] .dem-chip.tier-siting { opacity: .45; }
+html[data-filter="hosting"] .dem-chip.tier-siting { border-style: dashed; }
+html[data-filter="siting"] .dem-chip:not(.tier-siting)::before,
+html[data-filter="hosting"] .dem-chip.tier-siting::before { background: none; outline: 1px solid currentColor; outline-offset: -1px; }
+
+/* After map.zoomTo, percentage-placed chips and leaders no longer line up: hide them (row chips on narrow maps stay). */
+.dem-map.is-zoomed .dem-map-svg { overflow: hidden; }
+.dem-map.is-zoomed .dem-leaders, .dem-map.is-zoomed > .dem-chips { display: none; }
 
 /* zoom: grid-level view */
 html[data-scale="large"] .dem-state.is-covered:not(.scale-large),
@@ -123,7 +130,7 @@ html[data-scale="small"] .dem-label.is-covered:not(.scale-small) { fill: var(--m
 .dem-chip.is-related, .dem-chip.is-selected, .dem-chip:hover { border-color: var(--map-related-stroke); }
 
 @container (max-width: 760px) {
-  .dem-chips { position: static; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .dem-chips, .dem-map.is-zoomed > .dem-chips { position: static; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
   .dem-chip { position: static; transform: none; }
   .dem-leaders { display: none; }
 }
@@ -134,6 +141,7 @@ html[data-scale="small"] .dem-label.is-covered:not(.scale-small) { fill: var(--m
   font: 400 13px/1.35 var(--dem-font); color: var(--panel-text); background: var(--panel-bg);
   box-shadow: var(--panel-shadow);
 }
+.dem-tip[hidden] { display: none; }
 .dem-tip strong { font-weight: 600; }
 
 /* ---------- panel: side panel on desktop, bottom sheet on phones ---------- */

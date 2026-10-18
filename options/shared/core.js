@@ -731,6 +731,7 @@
       if (w / h > aspect) { var nh = w / aspect; y0 -= (nh - h) / 2; h = nh; } else { var nw = h * aspect; x0 -= (nw - w) / 2; w = nw; }
       target = [x0 - pad, y0 - pad, w, h];
     }
+    api.el.classList.toggle('is-zoomed', !!(codes && codes.length));
     var from = api.svg.getAttribute('viewBox').split(/\s+/).map(Number);
     if (DEM.reducedMotion || !ms) { api.svg.setAttribute('viewBox', target.join(' ')); return Promise.resolve(); }
     return new Promise(function (resolve) {
@@ -764,11 +765,16 @@
   function energize(api, options) {
     var o = Object.assign({ speed: 520, pulse: 90, loop: 5200, onEnergize: null }, options || {});
     var corridors = corridorPaths(api);
-    api.layers.corridors.innerHTML = '';
-    api.layers.pulses.innerHTML = '';
+    /* Draw into an own sub-group so anything a direction put in the corridors layer survives. */
+    var own = api.layers.corridors.querySelector('.dem-energize-corridors');
+    if (own) own.remove();
+    own = api.layers.corridors.appendChild(svg('g', { class: 'dem-energize-corridors' }));
+    api.layers.pulses.querySelectorAll('.dem-pulse').forEach(function (n) { n.remove(); });
     var els = corridors.map(function (c) {
-      return api.layers.corridors.appendChild(svg('path', { class: 'dem-corridor', d: c.d }));
+      return own.appendChild(svg('path', { class: 'dem-corridor', d: c.d }));
     });
+    var inView = false;
+    new IntersectionObserver(function (entries) { inView = entries[entries.length - 1].isIntersecting; }).observe(api.el);
 
     /* Arrival time (s) at each vertex; a corridor starts when an earlier one reaches its first state. */
     var arrival = {};
@@ -820,11 +826,12 @@
       setTimeout(function () {
         Object.keys(api.paths).forEach(light);
         api.el.setAttribute('data-energize', 'done');
-        if (o.loop) timer = setInterval(function () { if (!document.hidden && !DEM.reducedMotion) sendPulses(false); }, o.loop);
+        if (o.loop) timer = setInterval(function () { if (inView && !document.hidden && !DEM.reducedMotion) sendPulses(false); }, o.loop);
       }, last * 1000 + 400);
     }
 
     api.el.setAttribute('data-energize', 'pending');
+    if (DEM.reducedMotion) { run(); return { corridors: els, arrival: arrival, stop: function () {} }; }
     var io = new IntersectionObserver(function (entries) {
       if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); run(); }
     }, { threshold: 0.25 });
@@ -875,7 +882,7 @@
       }
       if (onProgress) onProgress({ p: p, step: step, local: local, steps: steps });
     }
-    function request() { if (!ticking) { ticking = true; requestAnimationFrame(measure); } }
+    function request() { if (DEM.reducedMotion) return; if (!ticking) { ticking = true; requestAnimationFrame(measure); } }
     function setStatic() {
       section.classList.toggle('is-static', DEM.reducedMotion);
       if (DEM.reducedMotion) {
