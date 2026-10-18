@@ -72,13 +72,15 @@
       var grid = sec.querySelector('.grid');
       MOTIONS.forEach(function (M) {
         var href = L.id + '/index.html?v=' + M.id;
-        var shot = 'shots/' + L.id + '/' + M.id + '-1440.jpg';
+        /* Each thumbnail shows the motion's signature moment, not the shared first screen. */
+        var SIGNATURE = { story: 'story-frame2-1440', energize: 'energize-done-1440', zoom: 'zoom-distribution-1440', micro: 'micro-siting-1440' };
+        var shot = 'shots/' + L.id + '/' + SIGNATURE[M.id] + '.jpg';
         var fig = document.createElement('figure');
         fig.innerHTML = '<a class="thumb" href="' + href + '"><img alt="" loading="lazy"></a>' +
-          '<figcaption><b></b><span><a href="shots/' + L.id + '/' + M.id + '-1440-full.jpg">Full page</a><a href="shots/' + L.id + '/' + M.id + '-390.jpg">Phone</a></span></figcaption>';
+          '<figcaption><b></b><span><a href="shots/' + L.id + '/' + M.id + '-1440.jpg">First screen</a><a href="shots/' + L.id + '/' + (M.id === 'story' ? 'story-reduced' : M.id) + '-1440-full.jpg">Full page</a><a href="shots/' + L.id + '/' + M.id + '-390.jpg">Phone</a></span></figcaption>';
         var img = fig.querySelector('img');
         img.src = shot;
-        img.alt = L.name + ', ' + M.name + ' motion, first screen at 1440 pixels wide';
+        img.alt = L.name + ', ' + M.name + ' motion, mid-motion frame at 1440 pixels wide';
         img.onerror = function () { var a = img.parentNode; a.classList.add('missing'); a.textContent = 'Open the live page'; };
         fig.querySelector('b').textContent = M.name + ': ' + M.text;
         grid.appendChild(fig);
