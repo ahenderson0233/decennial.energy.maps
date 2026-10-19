@@ -225,5 +225,13 @@ html[data-scale="small"] .dem-label.is-covered:not(.scale-small) { fill: var(--m
 .dem-switcher a { color: #1d1d1f; text-decoration: none; }
 .dem-switcher a[aria-current] { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 .dem-switcher-board { justify-self: start; color: #6b6b6b !important; }
-html[data-shot="1"] .dem-switcher { display: none; }
+html[data-shot="1"] .dem-switcher, html[data-shot="1"] .dem-review-back { display: none; }
+
+.dem-review-back { position: fixed; z-index: 100; left: 12px; bottom: 12px; }
+.dem-review-back a {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px;
+  font: 500 14px/1 var(--dem-font); color: #ffffff; background: #312439; text-decoration: none;
+  border: 1px solid #EBBE07; box-shadow: 0 4px 14px rgba(49, 36, 57, .3);
+}
+.dem-review-back a:hover { background: #43314d; }
 @media (max-width: 720px) { .dem-switcher { left: 6px; right: 6px; bottom: 6px; } }

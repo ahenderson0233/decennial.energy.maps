@@ -1,0 +1,16 @@
+# GitHub Pages (Jekyll) settings: publish the pages only, never internal notes or design contracts.
+# Dot-folders (.claude, .impeccable) are excluded by Jekyll by default; listed here for clarity.
+exclude:
+  - CLAUDE.md
+  - PRODUCT.md
+  - .claude
+  - .impeccable
+  - options/shared/README.md
+  - options/shared/reference.html
+  - options/control-room/PLAN.md
+  - options/schematic/PLAN.md
+  - options/night-lights/PLAN.md
+  - options/cartographic/PLAN.md
+  - options/isometric/PLAN.md
+include:
+  - robots.txt

@@ -901,6 +901,13 @@
 
   /* ------------------------------------------------------------------ dev switcher (options only) */
 
+  /* ?review=1 (the management review site): no look/motion switcher, just a way back to the options page. */
+  function buildReviewBack() {
+    document.body.appendChild(el('nav', { class: 'dem-review-back', 'aria-label': 'Review' }, [
+      el('a', { href: '../../index.html', text: 'Back to the options' })
+    ]));
+  }
+
   function buildSwitcher() {
     var look = document.documentElement.getAttribute('data-look') || '';
     var bar = el('nav', { class: 'dem-switcher', 'aria-label': 'Design options' });
@@ -942,7 +949,9 @@
         buildData();
         buildPanel();
         fillCopy(document);
-        if (document.documentElement.getAttribute('data-look')) buildSwitcher();
+        if (document.documentElement.getAttribute('data-look')) {
+          if (params.get('review') === '1') buildReviewBack(); else buildSwitcher();
+        }
         document.documentElement.classList.add('dem-ready');
       });
     }
