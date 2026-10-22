@@ -402,6 +402,18 @@
       maxH: function () { return section.classList.contains('is-static') ? Math.min(620, window.innerHeight * 0.8) : self.boardHost.clientHeight; }
     });
     window.addEventListener('resize', function () { self.art.size(); self.update(self.q, self.isStatic); });
+    /* The art column settles after first layout (notably on phones); re-measure when it does. */
+    var scene = section.querySelector('#story-scene');
+    if (scene && window.ResizeObserver) {
+      var lastW = 0, lastH = 0;
+      new ResizeObserver(function () {
+        var w = scene.clientWidth, h = scene.clientHeight;
+        if (Math.abs(w - lastW) < 1 && Math.abs(h - lastH) < 1) return;
+        lastW = w; lastH = h;
+        self.art.size();
+        self.update(self.q, self.isStatic);
+      }).observe(scene);
+    }
     this.q = 0;
   }
   StoryController.prototype.update = function (q, isStatic) {

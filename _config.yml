@@ -12,5 +12,10 @@ exclude:
   - options/night-lights/PLAN.md
   - options/cartographic/PLAN.md
   - options/isometric/PLAN.md
+  - final/shared/ART-CONTRACT.md
+  - final/current/PLAN.md
+  - final/lifelike-3d/PLAN.md
+  - final/lifelike-illustrated/PLAN.md
+  - final/blueprint/PLAN.md
 include:
   - robots.txt

@@ -1,0 +1,40 @@
+/*
+  Artwork set 3, "Life-like illustrated": styles for its own SVG only.
+  Faces carry their own computed tones; this file sets line behavior, the conductors and the soft edges
+  that let the scene dissolve into the page.
+*/
+html[data-art="lifelike-illustrated"] .ll-svg { overflow: hidden; }
+html[data-art="lifelike-illustrated"] .ll-svg .nss { vector-effect: non-scaling-stroke; }
+html[data-art="lifelike-illustrated"] .ll-svg .ln { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Conductors: widths stay constant on screen through --sw, the inverse of the drawing's scale. */
+html[data-art="lifelike-illustrated"] .ll-w path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+html[data-art="lifelike-illustrated"] .ll-dead { stroke-width: calc(.9 * var(--sw, 1)); }
+html[data-art="lifelike-illustrated"] .ll-dead.is-earth { stroke-width: calc(.55 * var(--sw, 1)); opacity: .8; }
+html[data-art="lifelike-illustrated"] .ll-case { stroke: #312439; stroke-width: calc(2.9 * var(--sw, 1)); }
+html[data-art="lifelike-illustrated"] .ll-live { stroke: #EBBE07; stroke-width: calc(1.45 * var(--sw, 1)); }
+html[data-art="lifelike-illustrated"] .ll-w:not(.is-live) .ll-case,
+html[data-art="lifelike-illustrated"] .ll-w:not(.is-live) .ll-live { visibility: hidden; }
+html[data-art="lifelike-illustrated"] .ll-head { pointer-events: none; }
+
+/* Hero: the panorama crop feathers into the drawing sheet on every side; lines enter from the left. */
+html[data-art="lifelike-illustrated"] .hero-campus .campus-svg {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 97%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 10%, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 97%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 10%, #000 82%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* Story: the camera's frame has soft edges, so the scene never sits in a box beside the copy. */
+html[data-art="lifelike-illustrated"] .story-scene {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 72px), linear-gradient(to bottom, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 72px), linear-gradient(to bottom, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+  mask-composite: intersect;
+}
+@media (max-width: 900px) {
+  html[data-art="lifelike-illustrated"] .story-scene {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%), linear-gradient(to bottom, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%), linear-gradient(to bottom, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+  }
+}

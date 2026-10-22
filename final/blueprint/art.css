@@ -1,0 +1,118 @@
+/*
+  Artwork set 4, "Blueprint to built". Graphite plum linework on the wash drafting film; built material in
+  white, lilac, heather and slab planes with ink edges; machinery in aubergine and ink; gold only on live
+  conductors. Every width is n * --sw (the inverse camera scale), so lines hold their screen weight.
+*/
+html[data-art="blueprint"] {
+  --bp-ink: #312439;
+  --bp-aub: #43314d;
+  --bp-gold: #EBBE07;
+  --bp-plan: #7b678a;
+  --bp-plan-2: #a998b6;
+  --bp-trace: #d3c7dd;
+  --bp-grid: #ede6f2;
+  --bp-grid-2: #e0d6e8;
+  --bp-roof: #ffffff;
+  --bp-wall: #efe8f4;
+  --bp-heather: #c6b5d3;
+  --bp-mauve: #8f7aa0;
+  --bp-slab: #e8e0ee;
+  --bp-slab-l: #d6cae0;
+  --bp-slab-r: #c2b1cf;
+  --bp-yard: #e1d7e9;
+  --bp-machine: #5d4a6b;
+}
+
+html[data-art="blueprint"] .bp-svg { overflow: hidden; }
+
+/* ---------------------------------------------------------------- drafting grid */
+
+html[data-art="blueprint"] .bp-gridwrap path { fill: none; vector-effect: non-scaling-stroke; stroke-width: 1; }
+html[data-art="blueprint"] .bp-grid-minor { stroke: var(--bp-grid); }
+html[data-art="blueprint"] .bp-grid-major { stroke: var(--bp-grid-2); }
+
+/* ---------------------------------------------------------------- built material */
+
+html[data-art="blueprint"] .bp-scene path,
+html[data-art="blueprint"] .bp-scene ellipse { stroke-linejoin: round; stroke-linecap: round; }
+
+html[data-art="blueprint"] .bp-b path,
+html[data-art="blueprint"] .bp-b ellipse { stroke: var(--bp-ink); stroke-width: calc(.7 * var(--sw, 1)); }
+
+html[data-art="blueprint"] .bp-b .f-top { fill: var(--bp-roof); }
+html[data-art="blueprint"] .bp-b .f-left { fill: var(--bp-wall); }
+html[data-art="blueprint"] .bp-b .f-right { fill: var(--bp-heather); }
+
+html[data-art="blueprint"] .bp-b .f-top.pad { fill: var(--bp-slab); }
+html[data-art="blueprint"] .bp-b .f-left.pad { fill: var(--bp-slab-l); }
+html[data-art="blueprint"] .bp-b .f-right.pad { fill: var(--bp-slab-r); }
+html[data-art="blueprint"] .bp-b .f-top.yard { fill: var(--bp-yard); }
+
+html[data-art="blueprint"] .bp-b .f-left.door { fill: var(--bp-aub); }
+
+html[data-art="blueprint"] .bp-b .f-top.rtu { fill: var(--bp-wall); }
+html[data-art="blueprint"] .bp-b .f-left.rtu { fill: var(--bp-slab-l); }
+html[data-art="blueprint"] .bp-b .f-right.rtu { fill: var(--bp-mauve); }
+html[data-art="blueprint"] .bp-b .f-left.fan { fill: var(--bp-heather); }
+html[data-art="blueprint"] .bp-b .f-top.fan { fill: var(--bp-heather); }
+html[data-art="blueprint"] .bp-b .rtu, html[data-art="blueprint"] .bp-b .fan { stroke-width: calc(.5 * var(--sw, 1)); }
+
+/* Machinery: transformer tanks, cooling fins and generator sets are the darkest material. */
+html[data-art="blueprint"] .bp-b .f-top.tank,
+html[data-art="blueprint"] .bp-b .f-top.genset { fill: var(--bp-machine); }
+html[data-art="blueprint"] .bp-b .f-left.tank,
+html[data-art="blueprint"] .bp-b .f-left.genset,
+html[data-art="blueprint"] .bp-b .f-left.fin { fill: var(--bp-aub); }
+html[data-art="blueprint"] .bp-b .f-right.tank,
+html[data-art="blueprint"] .bp-b .f-right.genset,
+html[data-art="blueprint"] .bp-b .f-right.fin,
+html[data-art="blueprint"] .bp-b .f-top.fin { fill: var(--bp-ink); }
+html[data-art="blueprint"] .bp-b .f-left.stack,
+html[data-art="blueprint"] .bp-b .f-top.stack { fill: var(--bp-ink); }
+html[data-art="blueprint"] .bp-b .fin { stroke-width: calc(.45 * var(--sw, 1)); }
+
+html[data-art="blueprint"] .bp-b .f-top.base { fill: var(--bp-slab); }
+html[data-art="blueprint"] .bp-b .f-left.base { fill: var(--bp-slab-l); }
+html[data-art="blueprint"] .bp-b .f-right.base { fill: var(--bp-slab-r); }
+
+html[data-art="blueprint"] .bp-b .f-top.bushing { fill: var(--bp-roof); }
+html[data-art="blueprint"] .bp-b .f-left.bushing { fill: var(--bp-wall); }
+
+html[data-art="blueprint"] .bp-b .steel { stroke-width: calc(.55 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-b .f-left.steel { fill: var(--bp-heather); }
+html[data-art="blueprint"] .bp-b .f-right.steel { fill: var(--bp-mauve); }
+html[data-art="blueprint"] .bp-b .f-top.wood { fill: var(--bp-slab-l); }
+html[data-art="blueprint"] .bp-b .f-left.wood { fill: var(--bp-mauve); }
+html[data-art="blueprint"] .bp-b .f-right.wood { fill: var(--bp-machine); }
+
+html[data-art="blueprint"] .bp-b .f-left.stack-big { fill: var(--bp-wall); }
+html[data-art="blueprint"] .bp-b .f-top.stack-big { fill: var(--bp-aub); }
+
+html[data-art="blueprint"] .bp-scene .ln { fill: none; }
+html[data-art="blueprint"] .bp-b .ln { stroke-width: calc(.9 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-b .ln.thin { stroke-width: calc(.55 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-b .ln.fence { stroke: var(--bp-mauve); stroke-width: calc(.5 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-b .ln.ins { stroke-width: calc(1.6 * var(--sw, 1)); }
+
+/* Conductors: a quiet built line, then the ink-cased gold core once current has passed. */
+html[data-art="blueprint"] .bp-b .wire path { fill: none; }
+html[data-art="blueprint"] .bp-b .wire .w-dead { stroke: var(--bp-aub); stroke-width: calc(.7 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-b .wire .w-case { stroke: var(--bp-ink); stroke-width: calc(2.6 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-b .wire .w-live { stroke: var(--bp-gold); stroke-width: calc(1.25 * var(--sw, 1)); }
+
+/* ---------------------------------------------------------------- plan */
+
+/* Object lines draw on: unit path length, offset --d from 1 (undrawn) to 0 (drawn). */
+html[data-art="blueprint"] .bp-p .po {
+  fill: none;
+  stroke: var(--bp-plan);
+  stroke-width: calc(.7 * var(--sw, 1));
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: var(--d, 0);
+}
+html[data-art="blueprint"] .bp-x path { fill: none; }
+html[data-art="blueprint"] .bp-x .px-hid { stroke: var(--bp-plan-2); stroke-width: calc(.6 * var(--sw, 1)); stroke-dasharray: var(--da-hid, 3 2); stroke-linecap: butt; }
+html[data-art="blueprint"] .bp-x .px-cl { stroke: var(--bp-plan-2); stroke-width: calc(.6 * var(--sw, 1)); stroke-dasharray: var(--da-cl, 9 2 1.5 2); stroke-linecap: butt; }
+html[data-art="blueprint"] .bp-x .px-con { stroke: var(--bp-trace); stroke-width: calc(.5 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-x .px-dim { stroke: var(--bp-plan-2); stroke-width: calc(.5 * var(--sw, 1)); }
+html[data-art="blueprint"] .bp-x .px-tick { stroke: var(--bp-plan); stroke-width: calc(1.1 * var(--sw, 1)); }

@@ -904,7 +904,7 @@
   /* ?review=1 (the management review site): no look/motion switcher, just a way back to the options page. */
   function buildReviewBack() {
     document.body.appendChild(el('nav', { class: 'dem-review-back', 'aria-label': 'Review' }, [
-      el('a', { href: '../../index.html', text: 'Back to the options' })
+      el('a', { href: '../../review/round-1.html', text: 'Back to the options' })
     ]));
   }
 
