@@ -83,12 +83,6 @@ p { text-wrap: pretty; }
 .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; text-decoration: none; }
 .brand-mark { font-weight: 600; font-size: .9375rem; letter-spacing: .24em; margin-right: -.24em; }
 .brand-product { font-weight: 400; font-size: .9375rem; padding-left: 12px; border-left: 1px solid var(--aub); }
-.masthead-nav { display: flex; gap: clamp(12px, 2.4vw, 32px); }
-.masthead-nav a {
-  display: inline-flex; align-items: center; min-height: 44px;
-  font-size: .9375rem; font-weight: 500; text-decoration: none;
-}
-.masthead-nav a:hover { text-decoration: underline; }
 
 /* ------------------------------------------------------------------ hero: the drawing sheet */
 
@@ -484,8 +478,6 @@ html[data-motion="zoom"] .detail.is-active .detail-label { color: var(--gold); b
 
 @media (max-width: 520px) {
   .masthead { flex-wrap: wrap; row-gap: 0; padding-left: 16px; padding-right: 16px; }
-  .masthead-nav { gap: 14px; }
-  .masthead-nav a { font-size: .875rem; }
   .lede { padding: 16px 16px 18px; font-size: 1.0625rem; }
   .title-block-find { padding: 14px 16px 18px; }
   .dem-filter-btn { padding: 8px 12px; }

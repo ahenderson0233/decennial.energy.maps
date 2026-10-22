@@ -12,7 +12,6 @@ window.DEM_COPY = {
   findLabel: "Find your state",
   findPlaceholder: "Choose a covered state",
 
-  nav: { coverage: "Coverage", scales: "Large and small loads" },
 
   coverage: {
     heading: "Where the maps reach",
