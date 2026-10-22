@@ -36,7 +36,7 @@ Product truth lives in `PRODUCT.md`. Durable visual decisions go in `DESIGN.md`,
 ## Settled design inputs
 
 - **Name:** "Decennial Energy Maps". The wordmark is "DECENNIAL", set in Work Sans; there is no logo image. The favicon is a gold-on-ink "D" SVG.
-- **Copy:** headline "Megawatts before acres." One shared copy set lives in `options/shared/copy.js`.
+- **Copy:** headline "Megawatts before acres." All page copy lives in `data/copy.js`.
 - **Palette:** ink `#312439`, aubergine `#43314d`, gold `#EBBE07`, lilac `#efe8f4`, wash `#f7f5f9`. Each direction sets its own dark/light balance.
 - **Sections:**
   - coverage map plus app directory;
@@ -48,26 +48,38 @@ Product truth lives in `PRODUCT.md`. Durable visual decisions go in `DESIGN.md`,
   - a multi-state app opens a panel listing its utilities in that state;
   - small Northeast states get callout chips; phones get a bottom sheet;
   - an accessible state list mirrors the map.
-- **Motion concepts,** selected with `?v=`: `story` (power path you scroll through), `energize` (energized national map), `zoom` (transmission vs distribution toggle), `micro` (button morphs).
+- **Motion (live page):** the hero energizes on load; the coverage board energizes on first view; the seven-stop story is driven by scroll. (Phase A also explored `zoom` and `micro`; not used.)
 - **Quality floor:** WCAG 2.2 AA, keyboard access, a static view when reduced motion is on, and current evergreen browsers plus iOS Safari.
 - **No** analytics, cookies or trackers. `robots.txt` disallows everything, and pages carry `noindex`.
 - **Stack:** static HTML, CSS and JS with no build step. Pinned CDN versions: D3 7.9.0 (cdnjs), topojson-client 3.1.0 (jsdelivr). Map data is inlined as JS so pages open by double-click.
 
 ## Layout
 
-- `options/`: the five design options from phase A. The board is `options/index.html`. All options share behavior from `options/shared/` (see `options/shared/README.md` for the contract).
-- `options/shots/`: Playwright review captures, committed so the comparison is reproducible.
-- **Phase B (from 2026-10-22).** The operator combined options C and D (isometric campus) into one final page:
-  - D's energize: the hero energizes on load, and the coverage board energizes on first view;
-  - C's scroll story, now seven stops: Generation, High-Voltage Transmission, Transmission Substation, Hyperscale Data Center (branching off the transmission substation), Distribution Feeder, Data Center (under 25 MW, on the feeder), Every Covered State.
-- `final/shared/`: everything common to the final page (`page.js`, `page.css`, `iso-kit.js`, `copy-final.js`), plus `ART-CONTRACT.md`.
-- `final/<set>/`: one page per artwork set, and the operator picks one as the final build:
-  - `current`: the isometric drawings;
-  - `lifelike-3d`: three.js;
-  - `lifelike-illustrated`: realistic SVG;
-  - `blueprint`: blueprint to built.
-- After the pick, the chosen set moves to the repo root. The others are deleted and remain in history.
-- The root `index.html` is the review front page that management opens. Earlier rounds live under `review/`.
+The live site is **the life-like 3D landing page**, chosen by the operator on 2026-10-22. It combines:
+- option D's energize: the hero energizes on load, and the coverage board energizes on first view;
+- option C's scroll story, in seven stops: Generation, High-Voltage Transmission, Transmission Substation, Hyperscale Data Center (branching off the transmission substation), Distribution Feeder, Data Center (under 25 MW, on the feeder), Every Covered State;
+- the three.js artwork.
+
+**Files:**
+- `index.html`: the page.
+- `css/`:
+  - `core.css`: structure and theming hooks;
+  - `page.css`: the isometric sheet, boards, story and coverage layout, and capitals for headings;
+  - `art.css`: the 3D canvas.
+- `js/`:
+  - `core.js`: data, map, panel, list, directory and the energize and story engines;
+  - `page.js`: hex boards, energize choreography, story controller, boot;
+  - `art.js`: the three.js hero and story, implementing `window.DEM_ART`;
+  - `iso-kit.js`: the isometric scene, used as the no-WebGL fallback.
+- `data/`:
+  - `apps.js`: coverage, no URLs;
+  - `copy.js`: every word on the page;
+  - `us-states-albers.js`;
+  - `apps.local.example.js`. The gitignored `data/apps.local.js` holds app URLs.
+- `docs/`: `design-plan.md` (the 3D plan) and `core-contract.md` (the core API). Excluded from Pages.
+- `shots/`: local Playwright captures, gitignored.
+
+**History:** the five options, the four final artwork sets and the review pages were removed from the tree on 2026-10-22. They are recoverable from git history; the review site at commit `ad7e0da` has all of them.
 
 ## Tool guide: when and how to use each skill
 
@@ -90,7 +102,7 @@ The workflow runs in this order. The tools build on one another: frontend-design
 4. **playwright-skill** (plugin, lackeyjb). Run it after every build pass.
    - Capture screenshots at 390x844, 1366x768 and 1440x900, plus mid-scroll frames for the motion concepts.
    - Check console errors, keyboard focus, and the reduced-motion view (`page.emulateMedia({ reducedMotion: 'reduce' })`).
-   - Skill dir: `%USERPROFILE%\.claude\plugins\cache\playwright-skill\playwright-skill\5.0.0\skills\playwright-skill`. Run scripts with `node "<skill dir>/run.js" <script.js>`, using `PW_HEADLESS=true` and `PW_ARTIFACT_DIR` set to the project's `shots/` (gitignored) or `options/shots/` (committed review boards).
+   - Skill dir: `%USERPROFILE%\.claude\plugins\cache\playwright-skill\playwright-skill\5.0.0\skills\playwright-skill`. Run scripts with `node "<skill dir>/run.js" <script.js>`, using `PW_HEADLESS=true` and `PW_ARTIFACT_DIR` set to the project's `shots/` (gitignored).
 5. **Hand-off:** before/after screenshots → push the `design/*` branch → the operator approves the merge.
 
 **Teammate setup:**
