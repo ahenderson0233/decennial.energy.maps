@@ -1221,16 +1221,15 @@
 
   /* ================================================================== story */
 
-  /* Camera per stop: target, fit radius, azimuth (from the south toward the east), elevation, and for the
-     last stop a framing that pins the whole path near the top of the column. */
+  /* Camera per stop: target, fit radius, azimuth (from the south toward the east), elevation. The story ends
+     holding on the edge-computing data center; STATIC_KEY frames the whole path for reduced motion. */
   var KEYS = [
     { t: [-10, 18, -1048], r: 92, az: 40, el: 21 },
     { t: [0, 26, -540], r: 190, az: 17, el: 10, fogF: 4.2, fadeB: 3.6 },
     { t: [0, 6, -4], r: 64, az: 50, el: 31 },
     { t: [330, 10, -36], r: 230, az: 31, el: 29 },
     { t: [-14, 5, 98], r: 58, az: 50, el: 27 },
-    { t: [24, 6, 268], r: 54, az: 40, el: 24 },
-    { t: [262, 0, -440], r: 590, az: 32, el: 56, vy: 0.235, fy: 0.36, fx: 0.92, fogN: 1.6, fogF: 5, fadeA: 1.05, fadeB: 1.45 }
+    { t: [24, 6, 268], r: 54, az: 40, el: 24 }
   ];
   var STATIC_KEY = { t: [262, 0, -400], r: 640, az: 32, el: 50, vy: 0.5, fy: 0.95, fx: 0.95, fogN: 1.6, fogF: 5, fadeA: 0.95, fadeB: 1.35 };
 
@@ -1246,7 +1245,7 @@
     var i = Math.min(KEYS.length - 2, Math.floor(x)), t = easeInOut(x - i);
     var a = keyView(KEYS[i], aspect), b = keyView(KEYS[i + 1], aspect);
     var travel = a.t.distanceTo(b.t);
-    var lift = 1 + clamp(travel / (a.d + b.d), 0, 0.5) * Math.sin(Math.PI * t) * (i === KEYS.length - 2 ? 0 : 1);
+    var lift = 1 + clamp(travel / (a.d + b.d), 0, 0.5) * Math.sin(Math.PI * t);
     return {
       t: a.t.clone().lerp(b.t, t), r: Math.exp(lerp(Math.log(a.r), Math.log(b.r), t)),
       az: lerp(a.az, b.az, t), el: lerp(a.el, b.el, t),
@@ -1406,7 +1405,7 @@
     var box = { x: e[0], y: e[1], w: e[2] - e[0], h: e[3] - e[1] };
     var keys = [
       { f: P(110, -1200, 40), span: 620 }, { f: P(120, -610, 50), span: 1180 }, { f: P(136, 18, 26), span: 560 },
-      { f: P(880, -30, 30), span: 1420 }, { f: P(130, 292, 26), span: 580 }, { f: P(90, 500, 16), span: 640 }, null
+      { f: P(880, -30, 30), span: 1420 }, { f: P(130, 292, 26), span: 580 }, { f: P(90, 500, 16), span: 640 }
     ];
     var W = 1, H = 1, isStatic = false;
     function size() {

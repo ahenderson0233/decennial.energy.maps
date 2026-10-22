@@ -3,10 +3,10 @@
   - IsoBoard: the hex map tilted on a plinth (hero, story and coverage boards).
   - Energize: the hero runs current to the data centers on load, then its board energizes; the coverage
     board energizes the first time it scrolls into view (the core waits for visibility).
-  - Story: seven stops driven by scroll; the artwork draws stops 1-6, the board rises for stop 7.
+  - Story: six stops driven by scroll, drawn by the artwork, ending on the edge-computing data center.
   js/art.js registers window.DEM_ART before this file loads:
     DEM_ART.hero(container)  -> { run(onArrive) }   current in on load; onArrive() when it reaches the halls
-    DEM_ART.story(container) -> { size(), update(q, isStatic) }   q runs 0..7 across the seven stops
+    DEM_ART.story(container) -> { size(), update(q, isStatic) }   q runs 0..6 across the six stops
 */
 (function () {
   'use strict';
@@ -389,18 +389,13 @@
 
   /* ================================================================== story */
 
-  var STOPS = 7;
+  var STOPS = 6;
 
-  /* The artwork draws stops 1-6; for stop 7 the board rises in front of it and its tiles extrude. */
+  /* The artwork draws all six stops; the story ends on the edge-computing data center. */
   function StoryController(section, art) {
     var self = this;
     this.section = section;
     this.art = art;
-    this.boardHost = section.querySelector('#story-board');
-    this.board = new IsoBoard(this.boardHost, {
-      labels: 'covered', hidden: true, fill: 0.96,
-      maxH: function () { return section.classList.contains('is-static') ? Math.min(620, window.innerHeight * 0.8) : self.boardHost.clientHeight; }
-    });
     window.addEventListener('resize', function () { self.art.size(); self.update(self.q, self.isStatic); });
     /* The art column settles after first layout (notably on phones); re-measure when it does. */
     var scene = section.querySelector('#story-scene');
@@ -420,17 +415,6 @@
     this.q = q;
     this.isStatic = !!isStatic;
     this.art.update(q, this.isStatic);
-    var last = STOPS - 1;
-    var show = isStatic ? 1 : clamp((q - (last - 0.2)) / 0.35, 0, 1);
-    this.boardHost.style.opacity = show;
-    this.boardHost.style.visibility = show > 0 ? 'visible' : 'hidden';
-    this.boardHost.style.transform = isStatic ? '' : 'translateY(' + r1((1 - easeOut(clamp((q - (last - 0.2)) / 0.6, 0, 1))) * 90) + 'px)';
-    var tileRise = isStatic ? 1 : smooth((q - (last + 0.2)) / 0.6);
-    if (this.board.rise !== tileRise || !this._once) {
-      this._once = true;
-      this.board.rise = tileRise;
-      this.board.refresh({ instant: true });
-    } else if (show > 0 && show < 1) this.board.placeLabels();
   };
 
   /* ================================================================== boot */
@@ -487,7 +471,7 @@
       board.host.classList.toggle('is-offscreen', !es[0].isIntersecting);
     }).observe(board.host);
 
-    /* Story: seven stops. */
+    /* Story: six stops. */
     var section = document.getElementById('story');
     section.style.setProperty('--story-steps', STOPS);
     DEM.renderStorySteps(document.getElementById('story-steps'));

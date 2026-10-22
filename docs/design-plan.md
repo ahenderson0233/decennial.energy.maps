@@ -128,3 +128,5 @@ No WebGL or no THREE: draw the reference isometric scene with window.ISOKIT (sha
 - A sky gradient behind the scene was dropped: the fog color is the page wash, so distance resolves into the
   sheet itself.
 - Grass green was pulled toward gray-sage so the ground does not fight the lilac page or the gold.
+
+> Update (operator ruling): the story now ends at stop 6, the Edge-Computing Data Center. The seventh stop and the board that rose at the end of the story were removed. References to stop 7 below are historical.

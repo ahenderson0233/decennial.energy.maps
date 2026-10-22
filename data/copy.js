@@ -61,16 +61,15 @@ window.DEM_COPY = {
   filter: { all: "All maps", siting: "Parcel-level siting", hosting: "Hosting capacity", label: "Show" },
   scaleToggle: { label: "Grid level", large: "Transmission", small: "Distribution" },
 
-  /* The power path in seven stops; the hyperscale campus branches off the transmission substation and the
-     smaller data center comes later off a distribution feeder. Titles are in title case; CSS sets them in capitals. */
+  /* The power path in six stops; the hyperscale campus branches off the transmission substation and the
+     edge-computing data center comes later off a distribution feeder. Titles are in title case; CSS sets them in capitals. */
   story: [
     { id: "generation", title: "Generation", text: "Power starts at the plant, and the grid decides where it can go." },
     { id: "transmission", title: "High-Voltage Transmission", text: "Transmission lines carry it across the region at the highest voltages." },
     { id: "substation", title: "Transmission Substation", text: "Large loads connect here. Bus headroom says how many megawatts a new load can take before the grid needs upgrades." },
     { id: "hyperscale", title: "Hyperscale Data Center", text: "Hyperscale campuses branch off the transmission system at the substation, sited where the bus has room." },
     { id: "feeder", title: "Distribution Feeder", text: "Feeders step power down and carry it the last miles. Hosting capacity says how much new load each feeder can take." },
-    { id: "datacenter", title: "Data Center", text: "Smaller data centers, under 25 MW, connect to a feeder where the power already has room." },
-    { id: "coverage", title: "Every Covered State", text: "Each one opens to the map that covers it." }
+    { id: "datacenter", title: "Edge-Computing Data Center", text: "Edge-computing data centers, under 25 MW, connect to the distribution feeder rather than the transmission system, where the power already has room." }
   ],
 
   footer: { internal: "Internal to Decennial Group", year: "2026" }

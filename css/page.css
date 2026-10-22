@@ -303,8 +303,6 @@ html[data-motion="zoom"] .detail.is-active .detail-label { color: var(--gold); b
 @media (min-width: 901px) { .story-art { margin-right: calc(-1 * (var(--gutter) + var(--frame))); } }
 .story-scene { position: absolute; inset: 0; }
 .story-svg { display: block; width: 100%; height: 100%; }
-.story-board { position: absolute; left: 0; right: 0; bottom: 3vh; height: 64%; display: flex; align-items: flex-end; }
-.story-board > .iso-stage { width: 100%; }
 
 .dem-story-steps { counter-reset: step; border-bottom: 1px solid var(--shade); }
 .dem-story-step {
@@ -334,7 +332,6 @@ html[data-motion="zoom"] .detail.is-active .detail-label { color: var(--gold); b
 .dem-story.is-static .story-copy { align-self: start; }
 .dem-story.is-static .story-art { height: auto; display: grid; gap: 24px; }
 .dem-story.is-static .story-scene { position: relative; inset: auto; height: clamp(300px, 36vw, 480px); }
-.dem-story.is-static .story-board { position: relative; inset: auto; height: auto; display: block; opacity: 1 !important; visibility: visible !important; transform: none !important; }
 .dem-story.is-static .dem-story-step { grid-template-rows: auto 1fr; }
 .dem-story.is-static .dem-story-step .dem-story-text { padding-top: 6px; }
 .dem-story.is-static .dem-story-step::before { color: var(--gold); background: var(--ink); border-color: var(--ink); }
@@ -473,7 +470,6 @@ html[data-motion="zoom"] .detail.is-active .detail-label { color: var(--gold); b
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0;
   }
   .dem-story:not(.is-static) .dem-story-steps { border-bottom: 0; }
-  .story-board { height: 60%; bottom: 2vh; }
 }
 
 @media (max-width: 760px) {

@@ -48,7 +48,7 @@ Product truth lives in `PRODUCT.md`. Durable visual decisions go in `DESIGN.md`,
   - a multi-state app opens a panel listing its utilities in that state;
   - small Northeast states get callout chips; phones get a bottom sheet;
   - an accessible state list mirrors the map.
-- **Motion (live page):** the hero energizes on load; the coverage board energizes on first view; the seven-stop story is driven by scroll. (Phase A also explored `zoom` and `micro`; not used.)
+- **Motion (live page):** the hero energizes on load; the coverage board energizes on first view; the six-stop story is driven by scroll. (Phase A also explored `zoom` and `micro`; not used.)
 - **Quality floor:** WCAG 2.2 AA, keyboard access, a static view when reduced motion is on, and current evergreen browsers plus iOS Safari.
 - **No** analytics, cookies or trackers. `robots.txt` disallows everything, and pages carry `noindex`.
 - **Stack:** static HTML, CSS and JS with no build step. Pinned CDN versions: D3 7.9.0 (cdnjs), topojson-client 3.1.0 (jsdelivr). Map data is inlined as JS so pages open by double-click.
@@ -57,7 +57,7 @@ Product truth lives in `PRODUCT.md`. Durable visual decisions go in `DESIGN.md`,
 
 The live site is **the life-like 3D landing page**, chosen by the operator on 2026-10-22. It combines:
 - option D's energize: the hero energizes on load, and the coverage board energizes on first view;
-- option C's scroll story, in seven stops: Generation, High-Voltage Transmission, Transmission Substation, Hyperscale Data Center (branching off the transmission substation), Distribution Feeder, Data Center (under 25 MW, on the feeder), Every Covered State;
+- option C's scroll story, in six stops: Generation, High-Voltage Transmission, Transmission Substation, Hyperscale Data Center (branching off the transmission substation), Distribution Feeder, Edge-Computing Data Center (under 25 MW, on the feeder). The former seventh stop, Every Covered State, was removed on the operator's ruling because the hero and coverage sections already carry maps;
 - the three.js artwork.
 
 **Files:**

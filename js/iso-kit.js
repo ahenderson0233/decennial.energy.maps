@@ -1,8 +1,8 @@
 /*
   Isometric drawing kit for the final landing page (shared by the current and blueprint artwork sets).
   - A 30-degree axonometric kit: three-tone faces, one stroke weight, conductors with a live gold core.
-  - The power path scene in seven stops: generation, transmission, transmission substation, the hyperscale
-    campus branching off that substation, the distribution feeder, the smaller data center, then coverage.
+  - The power path scene in six stops: generation, transmission, transmission substation, the hyperscale
+    campus branching off that substation, the distribution feeder and the edge-computing data center.
   - Current: lights the conductors hop by hop in path order.
   Everything is a generic illustration; it never sits on a state and never stands for a real project.
   Exposed as window.ISOKIT.
