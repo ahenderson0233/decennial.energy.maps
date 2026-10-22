@@ -27,27 +27,30 @@
   };
 
   /* Equal-area hex tile layout: [column, row]; odd rows sit half a tile to the right. */
+  /* Follows the operator's reference tile map (2026-10-22): every mainland state touches its real
+     neighbors, Florida hangs below Alabama and Georgia, Wisconsin / Illinois / Michigan sit in the
+     Great Lakes rows, and Rhode Island tucks beside Massachusetts and Connecticut. */
   var HEX = {
-    AK: [0, 0], ME: [11, 0],
-    WI: [6, 1], VT: [10, 1], NH: [11, 1],
-    WA: [1, 2], ID: [2, 2], MT: [3, 2], ND: [4, 2], MN: [5, 2], IL: [6, 2], MI: [7, 2], NY: [9, 2], MA: [10, 2],
-    OR: [1, 3], NV: [2, 3], WY: [3, 3], SD: [4, 3], IA: [5, 3], IN: [6, 3], OH: [7, 3], PA: [8, 3], NJ: [9, 3], CT: [10, 3], RI: [11, 3],
-    CA: [1, 4], UT: [2, 4], CO: [3, 4], NE: [4, 4], MO: [5, 4], KY: [6, 4], WV: [7, 4], VA: [8, 4], MD: [9, 4], DE: [10, 4],
-    AZ: [2, 5], NM: [3, 5], KS: [4, 5], AR: [5, 5], TN: [6, 5], NC: [7, 5], SC: [8, 5], DC: [9, 5],
-    OK: [4, 6], LA: [5, 6], MS: [6, 6], AL: [7, 6], GA: [8, 6],
-    HI: [0, 7], TX: [4, 7], FL: [9, 7]
+    AK: [1, 0], ME: [12, 0],
+    VT: [10, 1], NH: [11, 1],
+    WA: [2, 2], MT: [3, 2], ND: [4, 2], MN: [5, 2], WI: [6, 2], MI: [8, 2], NY: [10, 2], MA: [11, 2], RI: [12, 2],
+    ID: [2, 3], WY: [3, 3], SD: [4, 3], IA: [5, 3], IL: [6, 3], IN: [7, 3], OH: [8, 3], PA: [9, 3], NJ: [10, 3], CT: [11, 3],
+    OR: [2, 4], NV: [3, 4], CO: [4, 4], NE: [5, 4], MO: [6, 4], KY: [7, 4], WV: [8, 4], VA: [9, 4], MD: [10, 4], DE: [11, 4],
+    CA: [2, 5], UT: [3, 5], NM: [4, 5], KS: [5, 5], AR: [6, 5], TN: [7, 5], NC: [8, 5], SC: [9, 5], DC: [10, 5],
+    AZ: [4, 6], OK: [5, 6], LA: [6, 6], MS: [7, 6], AL: [8, 6], GA: [9, 6],
+    HI: [0, 7], TX: [5, 7], FL: [8, 7]
   };
 
   /* Small states that get callout chips on the geographic map, north to south. */
   var SMALL = ['VT', 'NH', 'MA', 'RI', 'CT', 'NJ', 'DE', 'MD', 'DC'];
 
   /* Stylized transmission corridors, as state sequences. Power is drawn flowing west to east. */
+  /* Every hop is between tiles that touch on the hex board, so the corridors run smoothly. */
   var CORRIDORS = [
-    ['CA', 'NV', 'UT', 'CO', 'KS', 'MO', 'IL', 'IN', 'OH'],
-    ['OH', 'PA', 'NJ'],
+    ['CA', 'UT', 'NM', 'KS', 'MO', 'IL', 'IN', 'OH'],
+    ['OH', 'PA', 'NJ', 'CT', 'RI'],
     ['PA', 'NY', 'MA', 'NH', 'ME'],
     ['NY', 'VT'],
-    ['NY', 'CT', 'RI'],
     ['OH', 'WV', 'VA', 'NC'],
     ['PA', 'MD', 'DC'],
     ['MD', 'DE']
@@ -250,10 +253,15 @@
 
   function hexShapes() {
     var r = 43, w = Math.sqrt(3) * r;
-    var cols = 12.5, rows = 7;
-    var ox = (VIEW_W - cols * w) / 2 + w / 2;
-    var oy = (VIEW_H - (rows * 1.5 * r + 2 * r)) / 2 + r;
     var gap = 2.2;
+    /* Center the grid in the view from its actual tile extent. */
+    var x0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    Object.keys(HEX).forEach(function (code) {
+      var x = HEX[code][0] * w + (HEX[code][1] % 2 ? w / 2 : 0);
+      x0 = Math.min(x0, x); x1 = Math.max(x1, x); y1 = Math.max(y1, HEX[code][1] * 1.5 * r);
+    });
+    var ox = (VIEW_W - (x1 - x0)) / 2 - x0;
+    var oy = (VIEW_H - y1) / 2;
     return Object.keys(HEX).map(function (code) {
       var c = HEX[code][0], row = HEX[code][1];
       var cx = ox + c * w + (row % 2 ? w / 2 : 0);
