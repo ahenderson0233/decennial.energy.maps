@@ -138,7 +138,7 @@
     DEM.hasUrls = Object.keys(urls).some(function (k) { return !!urls[k]; });
     DEM.apps = (window.DEM_APPS || []).map(function (a) {
       var copy = Object.assign({}, a);
-      copy.url = urls[a.id] || '';
+      copy.url = urls[a.id] || a.url || '';
       return copy;
     });
     window.DEM_US_TOPO.objects.states.geometries.forEach(function (g) {
@@ -470,8 +470,9 @@
   DEM.hoverApp = hoverApp;
 
   /*
-    Selecting a state: a single-state app with a live URL opens directly (new tab); everything else,
-    and every app while URLs are hidden, opens the panel (a side panel on desktop, a bottom sheet on phones).
+    Selecting a state always opens the panel (a side panel on desktop, a bottom sheet on phones), so the
+    visitor sees the map, its coverage and utilities before choosing "Open <map>", which opens that app's
+    sign-in page in a new tab (operator ruling, 2026-10-22).
   */
   function selectState(code, sourceEl) {
     var list = coverageOf(code);
@@ -479,11 +480,6 @@
     current.selected = code;
     applySelection();
     emit('state:select', code);
-    if (list.length === 1 && list[0].app.states.length === 1 && list[0].app.url) {
-      window.open(list[0].app.url, '_blank', 'noopener');
-      emit('app:open', list[0].app.id);
-      return;
-    }
     openPanel(code, sourceEl);
   }
   DEM.selectState = selectState;
@@ -516,7 +512,10 @@
     var c = DEM.copy.panel;
     if (app.url) {
       return el('p', { class: 'dem-action-row' }, [
-        el('a', { class: 'dem-action', href: app.url, target: '_blank', rel: 'noopener', text: fmt(c.open, { name: app.name + ' map' }) }),
+        el('a', { class: 'dem-action', href: app.url, target: '_blank', rel: 'noopener' }, [
+          fmt(c.open, { name: app.name + ' map' }),
+          el('span', { class: 'dem-sr', text: ' (opens in a new tab)' })
+        ]),
         el('span', { class: 'dem-signin', text: c.opensToSignIn })
       ]);
     }

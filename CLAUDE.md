@@ -6,9 +6,12 @@ Product truth lives in `PRODUCT.md`. Durable visual decisions go in `DESIGN.md`,
 
 ## Rules (binding)
 
-1. **No app URL in any committed file.** Coverage, utilities, tier and level live in `apps.js`. URLs live only in a gitignored `apps.local.js` (template: `apps.local.example.js`), merged in when present. Public clicks show "Access by invitation".
-   - End state, once every app is gated: each app opens to its own sign-in page.
-   - Before every push, check with `git grep -nE "run\.app|github\.io|pages\.dev"`; it must return nothing.
+1. **App links are sign-in pages only, and only in `data/apps.js`.** Every app was verified as gated on 2026-10-22, and the operator approved linking them. Each app's `url` in `data/apps.js` is that app's own `login.html`.
+   - Clicking a covered state always opens the popup. Its "Open <map> map" button opens the sign-in page in a new tab.
+   - No other app address (data pages, APIs, buckets) goes in any committed file.
+   - Adding a new app: confirm its URL loads a sign-in page, or redirects to one, before committing it.
+   - The gitignored `data/apps.local.js` can still override a URL locally.
+   - Before every push, run `git grep -nE "run\.app|pages\.dev" -- . ':!data/apps.js'`; it must return nothing. Then check that every `run.app` line in `data/apps.js` ends in `/login.html`. The only `github.io` address allowed is this site's own.
 2. **No PII anywhere:** copy, code, commits, screenshots or docs.
    - No personal names. App titles read "Decennial Energy Maps - Indiana", not a person's possessive.
    - No personal emails or phone numbers.
@@ -75,7 +78,7 @@ The live site is **the life-like 3D landing page**, chosen by the operator on 20
   - `apps.js`: coverage, no URLs;
   - `copy.js`: every word on the page;
   - `us-states-albers.js`;
-  - `apps.local.example.js`. The gitignored `data/apps.local.js` holds app URLs.
+  - `apps.local.example.js`. The gitignored `data/apps.local.js` can override app URLs locally; the live URLs (sign-in pages) are in `apps.js`.
 - `docs/`: `design-plan.md` (the 3D plan) and `core-contract.md` (the core API). Excluded from Pages.
 - `shots/`: local Playwright captures, gitignored.
 

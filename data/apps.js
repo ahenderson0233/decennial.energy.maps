@@ -1,6 +1,7 @@
 /*
   Decennial Energy Maps: coverage inventory.
-  Committed and public. NO URLS here, ever: they live in apps.local.js (gitignored).
+  Committed and public. Every app is gated (verified 2026-10-22), so each url is that app's own sign-in page
+  (login.html). Only sign-in pages may appear here; data/apps.local.js (gitignored) can override them locally.
 
   tier:      "siting"  = parcel-level siting app (grid, land, owner, community, incentives)
              "hosting" = utility hosting-capacity map (distribution headroom + transmission context)
@@ -13,6 +14,7 @@
 window.DEM_APPS = [
   {
     id: "indiana",
+    url: "https://indiana-app-61356051937.us-central1.run.app/login.html",
     name: "Indiana",
     fullName: "Decennial Energy Maps - Indiana",
     tier: "siting",
@@ -22,6 +24,7 @@ window.DEM_APPS = [
   },
   {
     id: "illinois",
+    url: "https://illinois-app-he4r7b7y5q-uc.a.run.app/login.html",
     name: "Illinois",
     fullName: "Decennial Energy Maps - Illinois",
     tier: "siting",
@@ -31,6 +34,7 @@ window.DEM_APPS = [
   },
   {
     id: "ohio",
+    url: "https://ohio-app-he4r7b7y5q-uc.a.run.app/login.html",
     name: "Ohio",
     fullName: "Decennial Energy Maps - Ohio",
     tier: "hosting",
@@ -43,6 +47,7 @@ window.DEM_APPS = [
   },
   {
     id: "dominion",
+    url: "https://dominion-app-he4r7b7y5q-uc.a.run.app/login.html",
     name: "Dominion",
     fullName: "Decennial Energy Maps - Dominion",
     tier: "hosting",
@@ -55,6 +60,7 @@ window.DEM_APPS = [
   },
   {
     id: "new-york",
+    url: "https://newyork-app-61356051937.us-central1.run.app/login.html",
     name: "New York",
     fullName: "Decennial Energy Maps - New York",
     tier: "hosting",
@@ -67,6 +73,7 @@ window.DEM_APPS = [
   },
   {
     id: "new-england",
+    url: "https://northeast-app-he4r7b7y5q-uc.a.run.app/login.html",
     name: "New England",
     fullName: "Decennial Energy Maps - New England",
     tier: "hosting",
@@ -83,6 +90,7 @@ window.DEM_APPS = [
   },
   {
     id: "mid-atlantic",
+    url: "https://midatlantic-app-he4r7b7y5q-uc.a.run.app/login.html",
     name: "Mid-Atlantic",
     fullName: "Decennial Energy Maps - Mid-Atlantic",
     tier: "hosting",
@@ -98,6 +106,7 @@ window.DEM_APPS = [
   },
   {
     id: "california",
+    url: "https://california-app-he4r7b7y5q-uc.a.run.app/login.html",
     name: "California",
     fullName: "Decennial Energy Maps - California",
     tier: "hosting",

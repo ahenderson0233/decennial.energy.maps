@@ -18,6 +18,7 @@ Written 2026-10-22 so a fresh session can pick up after context compaction. Read
     6. Edge-Computing Data Center: under 25 MW, on the feeder. The story ends here.
   - **Removed on the operator's ruling:** the seventh stop ("Every Covered State") and its rising map.
   - **Coverage ("WHERE THE MAPS REACH"):** a tilted isometric hex board that energizes the first time it scrolls into view, the legend, the covered-state list (the keyboard path), and the "Every map" schedule.
+  - **App links:** every covered state opens a popup whose "Open <map> map" button opens that app's sign-in page (`login.html`) in a new tab; the "Every map" schedule links them too.
   - **Header:** wordmark only. The section links were removed so visitors scroll through the animations. A keyboard-only "Skip to coverage" link stays for WCAG 2.4.1.
   - **Headings:** all in capitals, through CSS `text-transform`, with the source text in title or sentence case.
   - **Hex map:** follows the operator's reference tile map, shipped in commit `cc3b0c0`. Florida sits under Alabama and Georgia, the Great Lakes rows are fixed, and the corridors run only between tiles that touch.
@@ -43,7 +44,7 @@ Written 2026-10-22 so a fresh session can pick up after context compaction. Read
 | `js/page.js` | `IsoBoard` (tilted hex board), the energize choreography (hero on load, coverage on first view), `StoryController` (`STOPS = 6`), boot |
 | `js/art.js` | `window.DEM_ART = { hero(container) -> { run(onArrive) }, story(container) -> { size(), update(q 0..6, isStatic) } }`. Procedural three.js world, camera `KEYS` per stop, `STATIC_KEY` for reduced motion. It falls back to the isometric SVG through `ISOKIT` with no WebGL (`?gl=0` forces the fallback) |
 | `js/iso-kit.js` | The isometric drawing kit and scene (fallback only now) |
-| `data/apps.js` | Coverage inventory: 8 apps, tier, levels, states (full/partial), utilities. **No URLs ever** |
+| `data/apps.js` | Coverage inventory: 8 apps, tier, levels, states (full/partial), utilities, and each app's sign-in `url` (`login.html`) |
 | `data/copy.js` | Every word on the page. Story stops live here |
 | `data/us-states-albers.js` | us-atlas 3.0.1 states inlined, so the page opens from file:// |
 | `data/apps.local.example.js` | Template for the gitignored `data/apps.local.js` (app sign-in URLs) |
@@ -53,7 +54,9 @@ Written 2026-10-22 so a fresh session can pick up after context compaction. Read
 | `shots/` | Local Playwright captures, gitignored. Before/after sets: `before-after/`, `story-six/`, `no-nav/`, `hex-layout/` |
 
 ## Rulings that bind future work (all in CLAUDE.md)
-- **No app URL** in any committed file. Run `git grep -nE "run\.app|github\.io|pages\.dev"` before every push; it must print nothing. The end state is that each app opens to its own sign-in page via `data/apps.local.js`, once the apps are gated.
+- **App links are sign-in pages only, and only in `data/apps.js`.** All 8 apps were verified as gated on 2026-10-22.
+  - Clicking a state always opens the popup; its "Open <map> map" button opens that app's `login.html` in a new tab.
+  - Push guard: `git grep -nE "run\.app|pages\.dev" -- . ':!data/apps.js'` must print nothing, and every `run.app` line in `data/apps.js` must end in `/login.html`.
 - **No PII**, and people are named by role. Never use app screenshots unchecked: Indiana renders can show parcel owner names.
 - **Never claim** Hammond/Digital Crossroads, any named project, a roadmap, MW figures or customers. Coverage must match `apps.js`.
 - **Gold `#EBBE07`** is never text on a light ground.
@@ -95,7 +98,7 @@ Written 2026-10-22 so a fresh session can pick up after context compaction. Read
 ## Open items and ideas (none in progress)
 1. **Real-device check of the 3D page.** Only tested in SwiftShader. The first scroll into the story may hitch while the scene builds lazily.
 2. **DESIGN.md.** Impeccable's `document` step was never run for the shipped world. CLAUDE.md says to run it once the chosen direction is built. Use `/impeccable document`, or spawn `impeccable:impeccable-documenter` with the project root, `index.html`, `PRODUCT.md` and `docs/design-plan.md`.
-3. **Gating.** When the apps get sign-in, fill `data/apps.local.js` locally, then decide how URLs reach the deployed page: a gated host such as Cloudflare Access or Cloud Run, rather than a public repo.
+3. **App links (done 2026-10-22).** Every popup links its app's sign-in page in a new tab. If a new app is added, verify it is gated before adding its `login.html` to `data/apps.js`. Note: the Indiana app's own sign-in page title still uses a personal possessive name. That is outside this repo; fix it in the Indiana app to honor the no-PII rule.
 4. **Stale context in `.impeccable/surfaces/`.** It holds phase-A direction briefs for files that no longer exist. Harmless; clean up if Impeccable reports drift.
 5. **Dead code in `js/core.js`.** The phase-A dev switcher and `?review=1` back link are unused now (they need `data-look`, which the root page does not set).
 6. **Story heading.** The story has no visible heading; its `h2` is screen-reader only and reads "Large loads and small loads".

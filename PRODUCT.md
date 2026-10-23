@@ -25,7 +25,7 @@ The tools were built inside a real-asset developer for its own siting decisions,
 
 ## Operating Context
 - **Every app sits behind its own sign-in page.** Indiana and Illinois run on Cloud Run with Google Identity Platform. The legacy maps are to be gated.
-- **Until gating is complete, the public landing page must not contain any app URL.** URLs live in a gitignored `apps.local.js` and are merged in only when it is present. Public clicks show coverage details and "Access by invitation".
+- **Every app is gated** (verified 2026-10-22). The page links each app's own sign-in page, from `data/apps.js`. Clicking a covered state opens a popup with the map's coverage, its utilities and an "Open <map> map" button, which opens the sign-in page in a new tab. No other app address is published.
 - Coverage changes as apps ship. The page is data-driven from `apps.js`.
 
 ## Capabilities and Constraints
