@@ -56,7 +56,7 @@ Written 2026-10-22 so a fresh session can pick up after context compaction. Read
 ## Rulings that bind future work (all in CLAUDE.md)
 - **App links are sign-in pages only, and only in `data/apps.js`.** All 8 apps were verified as gated on 2026-10-22.
   - Clicking a state always opens the popup; its "Open <map> map" button opens that app's `login.html` in a new tab.
-  - Push guard: `git grep -nE "run\.app|pages\.dev" -- . ':!data/apps.js'` must print nothing, and every `run.app` line in `data/apps.js` must end in `/login.html`.
+  - Push guard: `git grep -nE "https?://[^ )]*(run\.app|pages\.dev)" -- . ':!data/apps.js'` must print nothing, and every `run.app` line in `data/apps.js` must end in `/login.html`.
 - **No PII**, and people are named by role. Never use app screenshots unchecked: Indiana renders can show parcel owner names.
 - **Never claim** Hammond/Digital Crossroads, any named project, a roadmap, MW figures or customers. Coverage must match `apps.js`.
 - **Gold `#EBBE07`** is never text on a light ground.

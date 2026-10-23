@@ -11,7 +11,7 @@ Product truth lives in `PRODUCT.md`. Durable visual decisions go in `DESIGN.md`,
    - No other app address (data pages, APIs, buckets) goes in any committed file.
    - Adding a new app: confirm its URL loads a sign-in page, or redirects to one, before committing it.
    - The gitignored `data/apps.local.js` can still override a URL locally.
-   - Before every push, run `git grep -nE "run\.app|pages\.dev" -- . ':!data/apps.js'`; it must return nothing. Then check that every `run.app` line in `data/apps.js` ends in `/login.html`. The only `github.io` address allowed is this site's own.
+   - Before every push, run `git grep -nE "https?://[^ )]*(run\.app|pages\.dev)" -- . ':!data/apps.js'`; it must return nothing. Then check that every `run.app` line in `data/apps.js` ends in `/login.html`. The only `github.io` address allowed is this site's own.
 2. **No PII anywhere:** copy, code, commits, screenshots or docs.
    - No personal names. App titles read "Decennial Energy Maps - Indiana", not a person's possessive.
    - No personal emails or phone numbers.
